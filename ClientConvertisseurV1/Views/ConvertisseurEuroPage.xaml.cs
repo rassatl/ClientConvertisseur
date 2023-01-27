@@ -86,7 +86,14 @@ namespace ClientConvertisseurV1.Views
 
         private void on_Click_Convertir(object sender, RoutedEventArgs e)
         {
-            Res = MontantEuro * SelectedCurrency.Taux;
+            string errorMessage = "";
+            if (SelectedCurrency == null)
+            {
+                errorMessage = "Vous devez sélectionner une devise !";
+                ShowAsync(errorMessage);
+            }
+            else
+                Res = MontantEuro * SelectedCurrency.Taux;
         }
 
         private async void GetDataOnLoadAsync()
@@ -94,9 +101,22 @@ namespace ClientConvertisseurV1.Views
             WSService service = new WSService("https://localhost:7056/api/devises");
             List<Devise> result = await service.GetDevisesAsync("devises");
             if (result == null)
-                return;
+                ShowAsync("API non disponible !");
             else
                 Valeurs = new ObservableCollection<Devise>(result);
+        }
+
+        private async void ShowAsync(string errorMessage)
+        {
+            ContentDialog noWifiDialog = new ContentDialog
+            {
+                Title = "Erreur !",
+                Content = errorMessage,
+                CloseButtonText = "Ok"
+            };
+
+            noWifiDialog.XamlRoot = this.Content.XamlRoot;
+            ContentDialogResult result = await noWifiDialog.ShowAsync();
         }
     }
 }
