@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation and Contributors.
 // Licensed under the MIT License.
 
-using ClientConvertisseurV2.ViewModels;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
@@ -25,26 +24,13 @@ namespace ClientConvertisseurV2.Views
     /// <summary>
     /// An empty page that can be used on its own or navigated to within a Frame.
     /// </summary>
-    public sealed partial class ConvertisseurEuroPage : Page
+    public sealed partial class ConvertirMontantDeviseEuro : Page
     {
-        public ConvertisseurEuroPage()
+        public ConvertirMontantDeviseEuro()
         {
             this.InitializeComponent();
-            DataContext = ((App)Application.Current).ConvertisseurEuroVM;
+            DataContext = ((App)Application.Current).ConvertisseurDeviseVM;
+
         }
-
-        private void Button_Change_Page(object sender, RoutedEventArgs e)
-        {
-            m_window = new MainWindow();
-            Frame rootFrame = new Frame();
-            this.m_window.Content = rootFrame;
-            MainRoot = m_window.Content as FrameworkElement;
-            m_window.Activate();
-            rootFrame.Navigate(typeof(ConvertirMontantDeviseEuro));
-        }
-        private Window m_window;
-        public static FrameworkElement MainRoot { get; private set; }
-
-
     }
 }
